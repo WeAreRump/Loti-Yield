@@ -294,6 +294,6 @@ end
 
 if pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/WeAreRump/Loti-Yield/main/version"))() end) then
 	if ver ~= Version then
-		notify("Outdated","This version for Loti Yield is outdated.")
+		notify("Outdated","Get the new version at lotiyield.yolasite.com")
 	end
 end
