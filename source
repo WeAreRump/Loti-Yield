@@ -1,0 +1,299 @@
+if LY_LOADED and not _G.LY_DEBUG == true then
+	notify("Already Running","Loti Yield is already running!")
+	return
+end
+
+pcall(function() getgenv().LY_LOADED = true end)
+
+-- Instances:
+
+local LotiYield = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Bottom2 = Instance.new("Frame")
+local Input = Instance.new("TextBox")
+local Go = Instance.new("TextButton")
+local OpenPress = Instance.new("TextButton")
+local Command1 = Instance.new("TextLabel")
+local Command2 = Instance.new("TextLabel")
+local Command3 = Instance.new("TextLabel")
+--local Command4 = Instance.new("TextLabel")
+local Notification = Instance.new("Frame")
+local NotificationMain = Instance.new("Frame")
+local NotificationText = Instance.new("TextLabel")
+local NotificationTitle = Instance.new("TextLabel")
+local NotificationClose = Instance.new("TextButton")
+
+local IsOpen = false
+local FE = workspace.FilteringEnabled
+local UserInputService = game:GetService("UserInputService")
+
+local Player = game.Players.LocalPlayer or game.Players.PlayerAdded:Wait()
+local Character = Player.Character
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+local Humanoid = Character:WaitForChild("Humanoid")
+
+--Properties:
+
+ver = "0.0.2"
+
+function notify(title,message)
+	wait(0.5)
+	NotificationTitle.Text = title
+	NotificationText.Text = message
+	Notification.Visible = true
+	Notification:TweenPosition(UDim2.new(0.707, 0, 0.865, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+end
+
+if not game:IsLoaded() then
+	notify("Not Loaded","Loti Yield is waiting for game to load.")
+	NotificationClose.Visible = false
+	game.Loaded:Wait()
+	Notification:TweenPosition(UDim2.new(0.707, 0, 0.865, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+	wait(0.2)
+	NotificationClose.Visible = true
+	NotificationTitle.Text = "Title"
+	NotificationText.Text = "Message"
+	Notification.Visible = false
+end
+
+LotiYield.Name = "LKYield"
+LotiYield.Parent = game.CoreGui
+LotiYield.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = LotiYield
+Main.BackgroundColor3 = Color3.fromRGB(64,64,64)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.87, 0, 1, 0)
+Main.Size = UDim2.new(0, 200, 0, 20)
+
+Title.Name = "Title"
+Title.Parent = Main
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.Size = UDim2.new(0, 200, 0, 20)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "Loti Yield FE v"..ver
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+
+Bottom2.Name = "Bottom2"
+Bottom2.Parent = Main
+Bottom2.BackgroundColor3 = Color3.fromRGB(64, 64, 64)
+Bottom2.BorderSizePixel = 0
+Bottom2.Position = UDim2.new(0, 0, 1, 0)
+Bottom2.Size = UDim2.new(0, 200, 0, 175)
+
+Input.Name = "Input"
+Input.Parent = Main
+Input.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+Input.BorderSizePixel = 0
+Input.Position = UDim2.new(0, 0, 1, 0)
+Input.Size = UDim2.new(0, 180, 0, 20)
+Input.ClearTextOnFocus = false
+Input.Font = Enum.Font.SourceSans
+Input.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
+Input.PlaceholderText = "Enter Command"
+Input.Text = ""
+Input.TextColor3 = Color3.fromRGB(255, 255, 255)
+Input.TextScaled = true
+Input.TextSize = 14.000
+Input.TextWrapped = true
+Input.TextXAlignment = Enum.TextXAlignment.Left
+
+Go.Name = "Go"
+Go.Parent = Input
+Go.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+Go.BorderSizePixel = 0
+Go.Position = UDim2.new(1, 0, 0, 0)
+Go.Size = UDim2.new(0, 19, 0, 20)
+Go.AutoButtonColor = false
+Go.Font = Enum.Font.SourceSans
+Go.Text = "Go"
+Go.TextColor3 = Color3.fromRGB(255, 255, 255)
+Go.TextScaled = true
+Go.TextSize = 14.000
+Go.TextWrapped = true
+Go.MouseButton1Click:Connect(function()
+	-- freeze / unfreeze, xray / unxray, exit / quit, close / destroy
+	if Input.Text == "freeze" then
+		HumanoidRootPart.Anchored = true
+	elseif Input.Text == "unfreeze" then
+		HumanoidRootPart.Anchored = false
+	elseif Input.Text == "xray" then
+		Player.DevCameraOcclusionMode = "Invisicam"
+	elseif Input.Text == "unxray" then
+		Player.DevCameraOcclusionMode = "Zoom"
+	elseif Input.Text == "exit" or Input.Text == "quit" then
+		Player:Kick("\nlkYieldException: Exitted with code 0")
+	elseif Input.Text == "console" then
+		notify("Notification","Press F9 or type '/console' to open console.")
+	end
+	
+	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+	wait(0.2)
+	IsOpen = false
+	Input.Text = ""
+end)
+
+OpenPress.Name = "OpenPress"
+OpenPress.Parent = Main
+OpenPress.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+OpenPress.BackgroundTransparency = 1.000
+OpenPress.Size = UDim2.new(0, 200, 0, 20)
+OpenPress.Font = Enum.Font.SourceSans
+OpenPress.Text = ""
+OpenPress.TextColor3 = Color3.fromRGB(0, 0, 0)
+OpenPress.TextSize = 14.000
+OpenPress.MouseButton1Click:Connect(function()
+	if not IsOpen then
+		Main:TweenPosition(UDim2.new(0.87, 0, 0.78, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+		wait(0.2)
+		IsOpen = true
+	else
+		Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+		wait(0.2)
+		IsOpen = false
+	end
+end)
+
+Command1.Name = "Command1"
+Command1.Parent = Main
+Command1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Command1.BackgroundTransparency = 1.000
+Command1.Position = UDim2.new(0, 0, 2, 0)
+Command1.Size = UDim2.new(0, 200, 0, 20)
+Command1.Font = Enum.Font.SourceSans
+Command1.Text = "freeze / unfreeze"
+Command1.TextColor3 = Color3.fromRGB(255, 255, 255)
+Command1.TextScaled = true
+Command1.TextSize = 14.000
+Command1.TextWrapped = true
+Command1.TextXAlignment = Enum.TextXAlignment.Left
+
+Command2.Name = "Command2"
+Command2.Parent = Main
+Command2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Command2.BackgroundTransparency = 1.000
+Command2.Position = UDim2.new(0, 0, 3, 0)
+Command2.Size = UDim2.new(0, 200, 0, 20)
+Command2.Font = Enum.Font.SourceSans
+Command2.Text = "xray / unxray"
+Command2.TextColor3 = Color3.fromRGB(255, 255, 255)
+Command2.TextScaled = true
+Command2.TextSize = 14.000
+Command2.TextWrapped = true
+Command2.TextXAlignment = Enum.TextXAlignment.Left
+
+Command3.Name = "Command3"
+Command3.Parent = Main
+Command3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Command3.BackgroundTransparency = 1.000
+Command3.Position = UDim2.new(0, 0, 4, 0)
+Command3.Size = UDim2.new(0, 200, 0, 20)
+Command3.Font = Enum.Font.SourceSans
+Command3.Text = "exit / quit"
+Command3.TextColor3 = Color3.fromRGB(255, 255, 255)
+Command3.TextScaled = true
+Command3.TextSize = 14.000
+Command3.TextWrapped = true
+Command3.TextXAlignment = Enum.TextXAlignment.Left
+
+--Command4.Name = "Command4"
+--Command4.Parent = Main
+--Command4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+--Command4.BackgroundTransparency = 1.000
+--Command4.Position = UDim2.new(0, 0, 5, 0)
+--Command4.Size = UDim2.new(0, 200, 0, 20)
+--Command4.Font = Enum.Font.SourceSans
+--Command4.Text = "close / destroy"
+--Command4.TextColor3 = Color3.fromRGB(255, 255, 255)
+--Command4.TextScaled = true
+--Command4.TextSize = 14.000
+--Command4.TextWrapped = true
+--Command4.TextXAlignment = Enum.TextXAlignment.Left
+
+Notification.Name = "Notification"
+Notification.Parent = LotiYield
+Notification.BackgroundColor3 = Color3.fromRGB(64, 64, 64)
+Notification.BorderSizePixel = 0
+Notification.Position = UDim2.new(0.707000017, 0, 1, 0)
+Notification.Size = UDim2.new(0, 250, 0, 15)
+Notification.Visible = false
+
+NotificationMain.Name = "NotificationMain"
+NotificationMain.Parent = Notification
+NotificationMain.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+NotificationMain.BorderSizePixel = 0
+NotificationMain.Position = UDim2.new(-0.000968754292, 0, 0.993556201, 0)
+NotificationMain.Size = UDim2.new(0, 250, 0, 100)
+
+NotificationText.Name = "NotificationText"
+NotificationText.Parent = NotificationMain
+NotificationText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotificationText.BackgroundTransparency = 1.000
+NotificationText.Size = UDim2.new(0, 250, 0, 100)
+NotificationText.Font = Enum.Font.SourceSans
+NotificationText.Text = "Message"
+NotificationText.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotificationText.TextSize = 14.000
+NotificationText.TextWrapped = true
+
+NotificationTitle.Name = "NotificationTitle"
+NotificationTitle.Parent = Notification
+NotificationTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotificationTitle.BackgroundTransparency = 1.000
+NotificationTitle.Size = UDim2.new(0, 250, 0, 15)
+NotificationTitle.Font = Enum.Font.SourceSans
+NotificationTitle.Text = "Title"
+NotificationTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotificationTitle.TextScaled = true
+NotificationTitle.TextSize = 14.000
+NotificationTitle.TextWrapped = true
+
+NotificationClose.Name = "NotificationClose"
+NotificationClose.Parent = Notification
+NotificationClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotificationClose.BackgroundTransparency = 1.000
+NotificationClose.Position = UDim2.new(0.95599997, 0, 0, 0)
+NotificationClose.Size = UDim2.new(0, 10, 0, 15)
+NotificationClose.Font = Enum.Font.SourceSans
+NotificationClose.Text = "X"
+NotificationClose.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotificationClose.TextScaled = true
+NotificationClose.TextSize = 14.000
+NotificationClose.TextWrapped = true
+NotificationClose.MouseButton1Click:Connect(function()
+	Notification:TweenPosition(UDim2.new(0.707, 0, 1, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+	wait(0.2)
+	Notification.Visible = false
+	NotificationTitle.Text = "Title"
+	NotificationText.Text = "Message"
+end)
+
+Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+
+UserInputService.InputBegan:Connect(function(input,chat)
+	if input.KeyCode == Enum.KeyCode.Q and not chat then
+		if not IsOpen then
+			IsOpen = true
+			Main:TweenPosition(UDim2.new(0.87, 0, 0.78, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+		else
+			IsOpen = false
+			Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+		end
+	end
+end)
+
+if not FE then
+	notify("Filtering Disabled","Game is FD; Please choose another game.")
+end
+
+if pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/WeAreRump/Loti-Yield/main/version"))() end) then
+	if ver ~= Version then
+		notify("Outdated","This version for Loti Yield is outdated.")
+	end
+end
