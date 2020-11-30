@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/WeAreRump/Loti-Yield/main/source"))()
