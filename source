@@ -1,5 +1,5 @@
 if LY_LOADED and not _G.LY_DEBUG == true then
-	notify("Already Running","Loti Yield is already running!")
+	error("Loti Yield is already running!",0)
 	return
 end
 
@@ -35,7 +35,7 @@ local Humanoid = Character:WaitForChild("Humanoid")
 
 --Properties:
 
-ver = "0.0.2"
+ver = "0.0.3"
 
 function notify(title,message)
 	wait(0.5)
@@ -132,7 +132,7 @@ Go.MouseButton1Click:Connect(function()
 	elseif Input.Text == "console" then
 		notify("Notification","Press F9 or type '/console' to open console.")
 	end
-	
+
 	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
 	wait(0.2)
 	IsOpen = false
@@ -290,6 +290,49 @@ end)
 
 if not FE then
 	notify("Filtering Disabled","Game is FD; Please choose another game.")
+	return
+end
+
+if writefile and readfile then
+	function readsave(key)
+		if key ~= nil then
+			return game:GetService("HttpService"):JSONDecode(readfile("IY_FE.iy"))[key] or false
+		else
+			return game:GetService("HttpService"):JSONDecode(readfile("IY_FE.iy"))
+		end
+	end
+
+	function writesave(key,value)
+		if key ~= nil and value ~= nil then
+			local save = game:GetService("HttpService"):JSONDecode(readfile("IY_FE.iy"))
+			save[key] = value
+			writefile("IY_FE.iy", game:GetService("HttpService"):JSONEncode(save))
+		else notify("Invalid","Invalid key/value specified to writesave")
+		end
+	end
+
+	local t = {}
+
+	for i,v in pairs(readsave("PluginsTable")) do
+		table.insert(t,v)
+		if v:lower() == "LY+.ly" then 
+			notify("Already Added","LY+ is already added!")
+			return
+		end
+	end
+
+	local _,err
+
+	repeat wait()
+		_,err = pcall(function()
+			writefile("LY+.ly",game:HttpGet("https://pastebin.com/raw/ZG5GgEgk",false))
+		end) until not err
+	table.insert(t,v)
+	writesave("PluginsTable",t)
+	game:GetService('TeleportService'):Teleport(game.PlaceId)
+else
+	notify("Incompatible Exploit","Your exploit does not support readfile/writefile. It can make Loti Yield malfunction.")
+	return
 end
 
 if pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/WeAreRump/Loti-Yield/main/version"))() end) then
