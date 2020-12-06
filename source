@@ -35,7 +35,7 @@ local Humanoid = Character:WaitForChild("Humanoid")
 
 --Properties:
 
-ver = "0.1.0"
+ver = "0.1"
 
 function notify(title,message)
 	wait(0.5)
