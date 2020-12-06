@@ -38,7 +38,6 @@ local Humanoid = Character:WaitForChild("Humanoid")
 ver = "0.1"
 
 function notify(title,message)
-	wait(0.5)
 	NotificationTitle.Text = title
 	NotificationText.Text = message
 	Notification.Visible = true
