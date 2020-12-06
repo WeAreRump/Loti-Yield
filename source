@@ -35,7 +35,7 @@ local Humanoid = Character:WaitForChild("Humanoid")
 
 --Properties:
 
-ver = "0.0.4"
+ver = "0.1.0"
 
 function notify(title,message)
 	wait(0.5)
@@ -131,6 +131,8 @@ Go.MouseButton1Click:Connect(function()
 		Player:Kick("\nlkYieldException: Exitted with code 0")
 	elseif Input.Text == "console" then
 		notify("Notification","Press F9 or type '/console' to open console.")
+	elseif Input.Text == "concon" or Input.Text == "con/con" or Input.Text == "con\con" then
+		notify("Harmful Command","This type of command may harm Loti Yield, so Loti Yield has blocked it.")
 	end
 
 	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
