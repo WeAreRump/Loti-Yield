@@ -35,9 +35,10 @@ local Humanoid = Character:WaitForChild("Humanoid")
 
 --Properties:
 
-ver = "0.1"
+ver = "0.1.1"
 
 function notify(title,message)
+	wait(0.5)
 	NotificationTitle.Text = title
 	NotificationText.Text = message
 	Notification.Visible = true
@@ -118,6 +119,8 @@ Go.TextSize = 14.000
 Go.TextWrapped = true
 Go.MouseButton1Click:Connect(function()
 	-- freeze / unfreeze, xray / unxray, exit / quit, close / destroy
+	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+	
 	if Input.Text == "freeze" then
 		HumanoidRootPart.Anchored = true
 	elseif Input.Text == "unfreeze" then
@@ -129,12 +132,13 @@ Go.MouseButton1Click:Connect(function()
 	elseif Input.Text == "exit" or Input.Text == "quit" then
 		Player:Kick("\nlkYieldException: Exitted with code 0")
 	elseif Input.Text == "console" then
+		wait(0.5)
 		notify("Notification","Press F9 or type '/console' to open console.")
 	elseif Input.Text == "concon" or Input.Text == "con/con" or Input.Text == "con\con" then
+		wait(0.5)
 		notify("Harmful Command","This type of command may harm Loti Yield, so Loti Yield has blocked it.")
 	end
-
-	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
+	
 	wait(0.2)
 	IsOpen = false
 	Input.Text = ""
@@ -288,11 +292,6 @@ UserInputService.InputBegan:Connect(function(input,chat)
 		end
 	end
 end)
-
-if not FE then
-	notify("Filtering Disabled","Game is FD; Please choose another game.")
-	return
-end
 
 if pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/WeAreRump/Loti-Yield/main/version"))() end) then
 	if ver ~= Version then
