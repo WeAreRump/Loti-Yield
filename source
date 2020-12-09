@@ -120,7 +120,7 @@ Go.TextWrapped = true
 Go.MouseButton1Click:Connect(function()
 	-- freeze / unfreeze, xray / unxray, exit / quit, close / destroy
 	Main:TweenPosition(UDim2.new(0.87, 0, 0.975, 0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.2)
-	
+
 	if Input.Text == "freeze" then
 		HumanoidRootPart.Anchored = true
 	elseif Input.Text == "unfreeze" then
@@ -138,7 +138,7 @@ Go.MouseButton1Click:Connect(function()
 		wait(0.5)
 		notify("Harmful Command","This type of command may harm Loti Yield, so Loti Yield has blocked it.")
 	end
-	
+
 	wait(0.2)
 	IsOpen = false
 	Input.Text = ""
@@ -298,3 +298,5 @@ if pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/W
 		notify("Outdated","Get the new version at lotiyield.yolasite.com")
 	end
 end
+
+notify("Lost","The owner of Loti Yield has lost the project of the exploit. Loti Yield will no longer get updated.")
